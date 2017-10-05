@@ -1,9 +1,17 @@
-import pygame
+import sys, pygame
 import os
 pygame.init()
 screen = pygame.display.set_mode((518,454))
 pygame.display.set_caption("Punch!")
 
+
+#variaveis globais
+tempo=0
+vidamac=100
+vidavon=100
+controlevon=0
+myfont = pygame.font.SysFont("monospace", 15)
+esquiva=0
 
 #carregar sprites 
 ringue = pygame.image.load(os.path.join("bitmaps","ringue.png"))
@@ -95,15 +103,34 @@ def jabdireito():
 def idle():
     screen.blit(stand, (200,240))
     pygame.display.update()
-    pygame.time.delay(20)    
+    pygame.time.delay(20)
+
+   
+    
+    
 while True:
+    controlevon+=1
+    print(controlevon,esquiva)
+    if controlevon==100:
+        if esquiva==0:
+            vidamac-=10
+            controlevon=0
+        else:
+            controlevon=0
+    if esquiva>0:
+        esquiva+=1
+    if esquiva ==30:
+        esquiva=0
+    print(esquiva)
     for event in pygame.event.get(): 
         if event.type == pygame.KEYDOWN:
-
             if event.key == pygame.K_LEFT:
                 esquiva_esquerda()
+                esquiva=1
+                
             elif event.key == pygame.K_RIGHT:
                 esquiva_direita()
+                esquiva=1
             elif event.key == pygame.K_z:
                 jabesquerdo()
             elif event.key == pygame.K_x:
@@ -111,10 +138,12 @@ while True:
     idle()
                 
         
-
+    
+    pygame.display.flip()
     screen.fill((0, 0, 0))
     screen.blit(ringue, (0,0))
-
+    label = myfont.render(str(vidamac), 1, (255,255,0))
+    screen.blit(label, (200, 200))
     pygame.display.flip()
 
 
