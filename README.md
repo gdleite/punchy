@@ -1,4 +1,4 @@
-# punchy
+# Punchy!
 Punch Out batata no python
 
 Trabalho de Laboratorio de programação 
