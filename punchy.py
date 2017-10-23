@@ -81,7 +81,7 @@ def victory(pontos):
     #Loop
     cond=False
     nome=""
-    fonte = pygame.font.SysFont("emulogic", 16)
+    fonte = pygame.font.Font("fonte/emulogic.ttf", 16)
     pts = fonte.render(str(pontos), 1, (255,255,255))
     somVitoria.play()
     while True:
@@ -201,7 +201,7 @@ def ranking():
     #Ranking Loop
     scores = open("leaderboard.txt")
     conteudo = scores.readlines()
-    fonte = pygame.font.SysFont("emulogic", 14)
+    fonte = pygame.font.Font("fonte/emulogic.ttf", 14)
     
     while True:
         posY=0
@@ -231,7 +231,7 @@ def gameloop():
     vidamac=100
     vidavon=8
     controlevon=0 
-    fonte = pygame.font.SysFont("emulogic", 14)
+    fonte = pygame.font.Font("fonte/emulogic.ttf", 14)
     esquiva=0       #direcao da esquiva
     esquivacooldown=0
     punchcooldown=0
