@@ -179,22 +179,23 @@ def victory(pontos):
                         ranking = open("leaderboard.txt","r")
                         conteudo = ranking.readlines()
                         for i in conteudo:
-                            j = i.split(":")
-                            if pontos>j[1]:
+                            i=i.strip("\n")
+                            j = i.split(" ")
+                            if pontos>int(j[1]):
                                 cond==True
                         ranking.close()
                         if cond == True:
                             lista=[]
                             ranking = open("leaderboard.txt","w")
                             conteudo = ranking.readlines()
-                            for i in conteudo:
-                                lista.append(i)
-                            for i in range(len(lista)):
-                                recorde=lista[i].split(":")
-                                if pontos > recorde[1]:
-                                    lista.insert(i+1,nome+":"+str(pontos))
+                            for i in range(len(conteudo)):
+                                i=i.strip("\n")
+                                recorde=lista[i].split(" ")
+                                if pontos > int(recorde[1]):
+                                    lista.insert(i-1,nome+" "+str(pontos))
                             for i in range(0,6,-1):
                                 ranking.write(lista[i])
+                        ranking.close()
 def ranking():
     #Sprites Ranking
     recordes = pygame.image.load(os.path.join("bitmaps","leaderboard.png"))
@@ -212,13 +213,11 @@ def ranking():
         posY=0
         screen.blit(recordes, (0,0))
         screen.blit(luva, (90,395))
-        for i in scores:
-            print(i)
-            #x = fonte.render(y[0], 1, (255,255,255))
-            
-            #screen.blit(x, (90,100+posY))
-            #screen.blit(x, (90,170+posY))
-            posY+=40
+        for i in conteudo:
+            i=i.strip("\n")
+            x = fonte.render(i, 1, (255,255,255))
+            screen.blit(x, (90,100+posY))
+            posY+=40          
         pygame.display.flip()
         
         for event in pygame.event.get():
