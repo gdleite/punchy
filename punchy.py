@@ -176,7 +176,6 @@ def victory(pontos):
                     if event.key == pygame.K_BACKSPACE:
                         nome=""
                     if event.key == pygame.K_RETURN:
-                        print("foi true")
                         ranking = open("leaderboard.txt","r+")
                         conteudo = ranking.readlines()
                         for i in range(len(conteudo)):
@@ -184,13 +183,13 @@ def victory(pontos):
                             if pontos > int(recorde[1]):
                                 conteudo.insert(i,nome+" "+str(pontos)+"\n")
                                 break
-                        print(conteudo)
                         ranking.truncate(0)
                         ranking.seek(0)
                         for i in range(6):
                             print(conteudo[i])
                             ranking.write(conteudo[i])
                         ranking.close()
+                        menu()
 def ranking():
     #Sprites Ranking
     recordes = pygame.image.load(os.path.join("bitmaps","leaderboard.png"))
