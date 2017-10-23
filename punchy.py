@@ -17,7 +17,6 @@ def menu():
     #Variaveis Menu
     lista=["0","1","2"]
     luvaPos=0
-    
     #Sprites Menu
     title = pygame.image.load(os.path.join("bitmaps","title.png"))
     w,h = title.get_size()
@@ -63,9 +62,79 @@ def menu():
                     if lista[luvaPos]=="0":
                         somMenu.stop()
                         gameloop()
-                if event.key == pygame.K_z:
-                    if lista[luvaPos]=="1":
+                    elif lista[luvaPos]=="1":
                         ranking()
+                    else:
+                        comoJogar()
+def comoJogar():
+    #Sprites Ranking
+    imagem = pygame.image.load(os.path.join("bitmaps","tutorial.png"))
+    
+    luva = pygame.image.load(os.path.join("bitmaps","luva.png"))
+    w,h = luva.get_size()
+    luva = pygame.transform.scale(luva, (w*2,h*2))
+    
+
+    #Som
+    somSelectMenu = pygame.mixer.Sound("som/menuselect.wav")
+    while True:
+        screen.fill((0,0,0))
+        screen.blit(imagem, (0,0))
+        screen.blit(luva, (80,390))          
+        pygame.display.flip()
+        
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                    pygame.quit()        
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_z:
+                    somSelectMenu.play()
+                    menu()
+def derrota():
+    #Sprites tela derrota
+    telaDerrota = pygame.image.load(os.path.join("bitmaps","derrota.png"))
+    luva = pygame.image.load(os.path.join("bitmaps","luva.png"))
+    w,h = luva.get_size()
+    luva = pygame.transform.scale(luva, (w*2,h*2))
+
+    #Som tela de derrota
+    somDerrota = pygame.mixer.Sound("som/lose.wav")
+    somSelectMenu = pygame.mixer.Sound("som/menuselect.wav")
+
+    #loop
+    somDerrota.play()
+    lista=["0","1"]
+    luvaPos=1
+    while True:
+        screen.fill((0, 0, 0))
+        screen.blit(telaDerrota, (0,0))
+        #luva
+        if luvaPos>1:
+            luvaPos=0
+        if luvaPos<0:
+            luvaPos=1
+        if luvaPos==0:
+            screen.blit(luva, (90,370))
+        elif luvaPos==1:
+            screen.blit(luva, (310,370))
+        pygame.display.flip()
+        for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                        pygame.quit()        
+                if event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_LEFT:
+                        luvaPos-=1
+                        somSelectMenu.play()
+                    if event.key == pygame.K_RIGHT:
+                        luvaPos+=1
+                        somSelectMenu.play()
+                    if event.key == pygame.K_RETURN or event.key == pygame.K_z:
+                        if lista[luvaPos]=="0":
+                            gameloop()
+                        else:
+                            menu()
+        
+    
 def victory(pontos):
     #Sprites tela vitoria
     telaVitoria = pygame.image.load(os.path.join("bitmaps","vitoria.png"))
@@ -77,6 +146,7 @@ def victory(pontos):
     #Som tela de vitoria
     somVitoria = pygame.mixer.Sound("som/win.wav")
     somSelectMenu = pygame.mixer.Sound("som/menuselect.wav")
+    
 
     #Loop
     cond=False
@@ -84,17 +154,34 @@ def victory(pontos):
     fonte = pygame.font.Font("fonte/emulogic.ttf", 16)
     pts = fonte.render(str(pontos), 1, (255,255,255))
     somVitoria.play()
+    lista=["0","1"]
+    luvaPos=1
     while True:
         letras = fonte.render(str(nome), 1, (255,255,255))
         screen.fill((0, 0, 0))
         screen.blit(telaVitoria, (0,0))
         screen.blit(pts,(270,170))
         screen.blit(letras,(230,206))
+        #luva
+        if luvaPos>1:
+            luvaPos=0
+        if luvaPos<0:
+            luvaPos=1
+        if luvaPos==0:
+            screen.blit(luva, (90,385))
+        elif luvaPos==1:
+            screen.blit(luva, (300,385))
         pygame.display.flip()
         for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                         pygame.quit()        
                 if event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_LEFT:
+                        luvaPos-=1
+                        somSelectMenu.play()
+                    if event.key == pygame.K_RIGHT:
+                        luvaPos+=1
+                        somSelectMenu.play()
                     if event.key == pygame.K_a and len(nome)<11:
                         nome+="a"
                         somSelectMenu.play()
@@ -176,6 +263,8 @@ def victory(pontos):
                     if event.key == pygame.K_BACKSPACE:
                         nome=""
                     if event.key == pygame.K_RETURN:
+                        if nome=="":
+                            nome="semnome"
                         ranking = open("leaderboard.txt","r+")
                         conteudo = ranking.readlines()
                         for i in range(len(conteudo)):
@@ -186,10 +275,13 @@ def victory(pontos):
                         ranking.truncate(0)
                         ranking.seek(0)
                         for i in range(6):
-                            print(conteudo[i])
                             ranking.write(conteudo[i])
                         ranking.close()
-                        menu()
+                        if lista[luvaPos]=="0":
+                            gameloop()
+                        else:
+                            menu()
+
 def ranking():
     #Sprites Ranking
     recordes = pygame.image.load(os.path.join("bitmaps","leaderboard.png"))
@@ -201,8 +293,10 @@ def ranking():
     #Ranking Loop
     scores = open("leaderboard.txt")
     conteudo = scores.readlines()
-    fonte = pygame.font.Font("fonte/emulogic.ttf", 14)
-    
+    fonte = pygame.font.Font("fonte/emulogic.ttf", 16)
+
+    #Som
+    somSelectMenu = pygame.mixer.Sound("som/menuselect.wav")
     while True:
         posY=0
         screen.blit(recordes, (0,0))
@@ -211,7 +305,7 @@ def ranking():
             i=i.strip("\n")
             x = fonte.render(i, 1, (255,255,255))
             screen.blit(x, (90,100+posY))
-            posY+=40          
+            posY+=50          
         pygame.display.flip()
         
         for event in pygame.event.get():
@@ -219,6 +313,7 @@ def ranking():
                     pygame.quit()        
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_z:
+                    somSelectMenu.play()
                     scores.close()
                     menu()
                      
@@ -229,7 +324,7 @@ def gameloop():
     segundos=0
     minutos=0
     vidamac=100
-    vidavon=8
+    vidavon=100
     controlevon=0 
     fonte = pygame.font.Font("fonte/emulogic.ttf", 14)
     esquiva=0       #direcao da esquiva
@@ -633,9 +728,9 @@ def gameloop():
             else:
                 screen.blit(stand, (200,240))
             if posXVon<100:
-                posXVon+=0.2
+                posXVon+=0.25
             if posYVon<70:
-                posYVon+=0.2
+                posYVon+=0.25
             pygame.display.update()
         
         somBackground.stop()
@@ -649,7 +744,7 @@ def gameloop():
             else:
                 screen.blit(victoryMac2,(200,220))
             pygame.display.update()
-            pygame.time.delay(500)
+            pygame.time.delay(300)
         somTorcida.stop()
             
     def koVonEsq():
@@ -660,7 +755,7 @@ def gameloop():
         for i in range(900):
             screen.fill((0, 0, 0))
             interface()
-            if posXVon<80:
+            if posXVon<60:
                 screen.blit(koVonEsq1,(160-posXVon,110-posYVon))
             else:
                 screen.blit(koVonEsq2,(60,110-posYVon))
@@ -672,23 +767,23 @@ def gameloop():
                 screen.blit(socodir1, (220,240))
             else:
                 screen.blit(stand, (200,240))
-            if posXVon<80:
-                posXVon+=0.2
-            if posYVon<30:
-                posYVon+=0.2
+            if posXVon<60:
+                posXVon+=0.3
+            if posYVon<20:
+                posYVon+=0.1
             pygame.display.update()
         somTorcida.play()
         somBackground.stop()
         for i in range(8):
             screen.fill((0, 0, 0))
             interface()
-            screen.blit(koVonEsq2,(60,80))
+            screen.blit(koVonEsq2,(60,90))
             if i%2==0:
                 screen.blit(victoryMac1,(200,240))
             else:
                 screen.blit(victoryMac2,(200,220))
             pygame.display.update()
-            pygame.time.delay(500)
+            pygame.time.delay(300)
         somTorcida.stop()
 
     def koMacDir():
@@ -827,7 +922,6 @@ def gameloop():
 
         if controlevon == prep+react:
             if direction == "dir" and esquiva<=0:
-                print("levou soco na", direction )
                 esquiva=0
                 vidamac-=damageVon*multiply
                 controlevon=0
@@ -837,7 +931,6 @@ def gameloop():
                 
                 
             elif direction == "esq" and esquiva>=0:
-                print("levou soco na", direction )
                 esquiva=0
                 vidamac-=damageVon*multiply
                 controlevon=0
@@ -845,11 +938,6 @@ def gameloop():
                 if vidamac<=0:
                     koMacDir()
                 
-                
-            else:
-                print("esquivou se do soco na", direction)
-                
-
         #Controle Esquiva    
         if esquivacooldown>0:
             esquivacooldown-=1        
@@ -929,11 +1017,6 @@ def gameloop():
                     if vidavon<=0:
                         koVonEsq()
                         
-        
-        
-            
-        
-                    
         if vidavon<=0 or vidamac<=0:
             break
         
@@ -952,6 +1035,8 @@ def gameloop():
         
     if vidavon<=0:
         victory(pontos)
+    else:
+        derrota()
     
 menu()
 

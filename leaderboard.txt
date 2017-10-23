@@ -1,8 +1,6 @@
-joao:1720
-pedro:200
-carlos:150
-tomas:120
-Gabriel:10
-Alex:5
-
-
+pericles 11200
+abilio 10300
+samuel 9700
+carloshps 9500
+serjao 5000
+gabriel 300
