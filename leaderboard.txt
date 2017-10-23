@@ -1,0 +1,8 @@
+joao:1720
+pedro:200
+carlos:150
+tomas:120
+Gabriel:10
+Alex:5
+
+

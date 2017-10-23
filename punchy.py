@@ -1,29 +1,255 @@
 import sys, pygame
 import os
 import random
+import math
 
 #Inicializar pygame
 pygame.init()
-screen = pygame.display.set_mode((518,454))
-pygame.display.set_caption("Punchy!")
+screen = pygame.display.set_mode((513,454))
+pygame.display.set_caption("Punchy!!")
+
+#Som Menu
+somMenu = pygame.mixer.Sound("som/menu.wav")
+somMenu.play()
 
 #MENU LOOP
 def menu():
-    pass
+    #Variaveis Menu
+    lista=["0","1","2"]
+    luvaPos=0
     
+    #Sprites Menu
+    title = pygame.image.load(os.path.join("bitmaps","title.png"))
+    w,h = title.get_size()
+    title = pygame.transform.scale(title, (w*2,h*2))
+    
+    luva = pygame.image.load(os.path.join("bitmaps","luva.png"))
+    w,h = luva.get_size()
+    luva = pygame.transform.scale(luva, (w*2,h*2))
+
+    #Som Menu
+    somSelectMenu = pygame.mixer.Sound("som/menuselect.wav")
+
+    #Menu Loop
+    
+    while True:
+        screen.blit(title, (0,0))
+
+        #luva
+        if luvaPos>2:
+            luvaPos=0
+        if luvaPos<0:
+            luvaPos=2
+        if luvaPos==0:
+            screen.blit(luva, (150,300))
+        elif luvaPos==1:
+            screen.blit(luva, (120,345))
+        else:
+            screen.blit(luva, (100,385))
+        pygame.display.flip()
+        
+        for event in pygame.event.get():
+            
+            if event.type == pygame.QUIT:
+                    pygame.quit()        
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_UP:
+                    luvaPos-=1
+                    somSelectMenu.play()
+                if event.key == pygame.K_DOWN:
+                    luvaPos+=1
+                    somSelectMenu.play()
+                if event.key == pygame.K_z:
+                    if lista[luvaPos]=="0":
+                        somMenu.stop()
+                        gameloop()
+                if event.key == pygame.K_z:
+                    if lista[luvaPos]=="1":
+                        ranking()
+def victory(pontos):
+    #Sprites tela vitoria
+    telaVitoria = pygame.image.load(os.path.join("bitmaps","vitoria.png"))
+
+    luva = pygame.image.load(os.path.join("bitmaps","luva.png"))
+    w,h = luva.get_size()
+    luva = pygame.transform.scale(luva, (w*2,h*2))
+
+    #Som tela de vitoria
+    somVitoria = pygame.mixer.Sound("som/win.wav")
+    somSelectMenu = pygame.mixer.Sound("som/menuselect.wav")
+
+    #Loop
+    cond=False
+    nome=""
+    fonte = pygame.font.SysFont("emulogic", 16)
+    pts = fonte.render(str(pontos), 1, (255,255,255))
+    somVitoria.play()
+    while True:
+        letras = fonte.render(str(nome), 1, (255,255,255))
+        screen.fill((0, 0, 0))
+        screen.blit(telaVitoria, (0,0))
+        screen.blit(pts,(270,170))
+        screen.blit(letras,(230,206))
+        pygame.display.flip()
+        for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                        pygame.quit()        
+                if event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_a and len(nome)<11:
+                        nome+="a"
+                        somSelectMenu.play()
+                    if event.key == pygame.K_b and len(nome)<11:
+                        nome+="b"
+                        somSelectMenu.play()
+                    if event.key == pygame.K_c and len(nome)<11:
+                        nome+="c"
+                        somSelectMenu.play()
+                    if event.key == pygame.K_d and len(nome)<11 :
+                        nome+="d"
+                        somSelectMenu.play()
+                    if event.key == pygame.K_e and len(nome)<11:
+                        nome+="e"
+                        somSelectMenu.play()
+                    if event.key == pygame.K_f and len(nome)<11:
+                        nome+="f"
+                        somSelectMenu.play()
+                    if event.key == pygame.K_g and len(nome)<11:
+                        nome+="g"
+                        somSelectMenu.play()
+                    if event.key == pygame.K_h and len(nome)<11:
+                        nome+="h"
+                        somSelectMenu.play()
+                    if event.key == pygame.K_i and len(nome)<11:
+                        nome+="i"
+                        somSelectMenu.play()
+                    if event.key == pygame.K_j and len(nome)<11:
+                        nome+="j"
+                        somSelectMenu.play()
+                    if event.key == pygame.K_k and len(nome)<11:
+                        nome+="k"
+                        somSelectMenu.play()
+                    if event.key == pygame.K_l and len(nome)<11:
+                        nome+="l"
+                        somSelectMenu.play()
+                    if event.key == pygame.K_m and len(nome)<11:
+                        nome+="m"
+                        somSelectMenu.play()
+                    if event.key == pygame.K_n and len(nome)<11:
+                        nome+="n"
+                        somSelectMenu.play()
+                    if event.key == pygame.K_o and len(nome)<11:
+                        nome+="o"
+                        somSelectMenu.play()
+                    if event.key == pygame.K_p and len(nome)<11:
+                        nome+="p"
+                        somSelectMenu.play()
+                    if event.key == pygame.K_q and len(nome)<11:
+                        nome+="q"
+                        somSelectMenu.play()
+                    if event.key == pygame.K_r and len(nome)<11:
+                        nome+="r"
+                        somSelectMenu.play()
+                    if event.key == pygame.K_s and len(nome)<11:
+                        nome+="s"
+                        somSelectMenu.play()
+                    if event.key == pygame.K_t and len(nome)<11:
+                        nome+="t"
+                        somSelectMenu.play()
+                    if event.key == pygame.K_u and len(nome)<11:
+                        nome+="u"
+                        somSelectMenu.play()
+                    if event.key == pygame.K_v and len(nome)<11:
+                        nome+="v"
+                        somSelectMenu.play()
+                    if event.key == pygame.K_w and len(nome)<11:
+                        nome+="w"
+                        somSelectMenu.play()
+                    if event.key == pygame.K_x and len(nome)<11:
+                        nome+="x"
+                        somSelectMenu.play()
+                    if event.key == pygame.K_y and len(nome)<11:
+                        nome+="y"
+                        somSelectMenu.play()
+                    if event.key == pygame.K_z and len(nome)<11:
+                        nome+="z"
+                        somSelectMenu.play()
+                    if event.key == pygame.K_BACKSPACE:
+                        nome=""
+                    if event.key == pygame.K_RETURN:
+                        ranking = open("leaderboard.txt","r")
+                        conteudo = ranking.readlines()
+                        for i in conteudo:
+                            j = i.split(":")
+                            if pontos>j[1]:
+                                cond==True
+                        ranking.close()
+                        if cond == True:
+                            lista=[]
+                            ranking = open("leaderboard.txt","w")
+                            conteudo = ranking.readlines()
+                            for i in conteudo:
+                                lista.append(i)
+                            for i in range(len(lista)):
+                                recorde=lista[i].split(":")
+                                if pontos > recorde[1]:
+                                    lista.insert(i+1,nome+":"+str(pontos))
+                            for i in range(0,6,-1):
+                                ranking.write(lista[i])
+def ranking():
+    #Sprites Ranking
+    recordes = pygame.image.load(os.path.join("bitmaps","leaderboard.png"))
+    
+    luva = pygame.image.load(os.path.join("bitmaps","luva.png"))
+    w,h = luva.get_size()
+    luva = pygame.transform.scale(luva, (w*2,h*2))
+    
+    #Ranking Loop
+    scores = open("leaderboard.txt")
+    conteudo = scores.readlines()
+    fonte = pygame.font.SysFont("emulogic", 14)
+    
+    while True:
+        posY=0
+        screen.blit(recordes, (0,0))
+        screen.blit(luva, (90,395))
+        for i in scores:
+            print(i)
+            #x = fonte.render(y[0], 1, (255,255,255))
+            
+            #screen.blit(x, (90,100+posY))
+            #screen.blit(x, (90,170+posY))
+            posY+=40
+        pygame.display.flip()
+        
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                    pygame.quit()        
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_z:
+                    scores.close()
+                    menu()
+                     
 def gameloop():
     #Variaveis Gameloop
-    tempo=0
-    vidamac=100
-    vidavon=100
+    segundos=0
+    minutos=0
+    vidamac=10
+    vidavon=10
     controlevon=0 
-    myfont = pygame.font.SysFont("monospace", 15)
+    fonte = pygame.font.SysFont("emulogic", 14)
     esquiva=0       #direcao da esquiva
     esquivacooldown=0
     punchcooldown=0
     standcontrol=0  #controle animaçao
     i=0
     direction="dir" #direcao soco
+    pontos=0
+    status="facil"
+    prep=99
+    react=50
+    damageVon=10
+    ptsMultiply=1
+    bonusControl=2
 
     #Variaveis Som
     somBackground = pygame.mixer.Sound("som/fight.wav")
@@ -34,6 +260,8 @@ def gameloop():
     somSocoVon2 = pygame.mixer.Sound("som/punchvon2.wav")
     somCharge = pygame.mixer.Sound("som/charge.wav")
     somBlock = pygame.mixer.Sound("som/block.wav")
+    somKo = pygame.mixer.Sound("som/falling.wav")
+    somTorcida = pygame.mixer.Sound("som/torcida.wav")
     
 
     #Sprites gerais
@@ -93,6 +321,20 @@ def gameloop():
     punchedmacdir1 = pygame.transform.flip(punchedmacesq1, True, False)
     punchedmacdir2 = pygame.transform.flip(punchedmacesq2, True, False)
 
+    victoryMac1 = pygame.image.load(os.path.join("bitmaps/mac","victory1.png"))
+    w,h = victoryMac1.get_size()
+    victoryMac1 = pygame.transform.scale(victoryMac1, (w*2,h*2))
+
+    victoryMac2 = pygame.image.load(os.path.join("bitmaps/mac","victory2.png"))
+    w,h = victoryMac2.get_size()
+    victoryMac2 = pygame.transform.scale(victoryMac2, (w*2,h*2))
+
+    koMacEsq1 = pygame.image.load(os.path.join("bitmaps/mac","koMac.png"))
+    w,h = koMacEsq1.get_size()
+    koMacEsq1 = pygame.transform.scale(koMacEsq1, (w*2,h*2))
+
+    koMacDir1 = pygame.transform.flip(koMacEsq1, True, False)
+
     #Sprites von
     idlevon1 = pygame.image.load(os.path.join("bitmaps/von","idlevon1.png"))
     w,h = idlevon1.get_size()
@@ -141,8 +383,28 @@ def gameloop():
     blockVonDir = pygame.image.load(os.path.join("bitmaps/von","blockvondir.png"))
     w,h = blockVonDir.get_size()
     blockVonDir = pygame.transform.scale(blockVonDir, (w*2,h*2))
-
+    
     blockVonEsq = pygame.transform.flip(blockVonDir, True, False)
+
+    koVonDir1 = pygame.image.load(os.path.join("bitmaps/von","kovon1.png"))
+    w,h = koVonDir1.get_size()
+    koVonDir1 = pygame.transform.scale(koVonDir1, (w*2,h*2))
+
+    koVonDir2 = pygame.image.load(os.path.join("bitmaps/von","kovon2.png"))
+    w,h = koVonDir2.get_size()
+    koVonDir2 = pygame.transform.scale(koVonDir2, (w*2,h*2))
+
+    koVonEsq1 = pygame.transform.flip(koVonDir1, True, False)
+    koVonEsq2 = pygame.transform.flip(koVonDir2, True, False)
+
+    victoryVon1 = pygame.image.load(os.path.join("bitmaps/von","victoryvon1.png"))
+    w,h = victoryVon1.get_size()
+    victoryVon1 = pygame.transform.scale(victoryVon1, (w*2,h*2))
+
+    victoryVon2 = pygame.image.load(os.path.join("bitmaps/von","victoryvon2.png"))
+    w,h = victoryVon2.get_size()
+    victoryVon2 = pygame.transform.scale(victoryVon2, (w*2,h*2))    
+    
 
     #ANIMAÇÕES
     def interface():
@@ -154,8 +416,17 @@ def gameloop():
             lifebarVon=0
         if lifebarMac<0:
             lifebarMac=0
-        pygame.draw.rect(screen, (255,0,0),(180,36,lifebarMac,15),0)
-        pygame.draw.rect(screen, (255,0,0),(292,36,lifebarVon,15),0)
+        if vidamac!=0:
+            pygame.draw.rect(screen, (255,0,0),(180,36,lifebarMac,15),0)
+        if vidavon>=0:
+            pygame.draw.rect(screen, (255,0,0),(292,36,lifebarVon,15),0)
+        mins = fonte.render("0"+str(minutos), 1, (255,255,255)) 
+        secs = fonte.render(":"+str(math.floor(segundos)), 1, (255,255,255))
+        screen.blit(secs, (445, 33))
+        screen.blit(mins, (415, 33))
+        pts = fonte.render(str(pontos), 1, (255,255,255))
+        screen.blit(pts, (320, 52))
+        
     def esquiva_esquerda():
         screen.fill((0, 0, 0))
         interface()
@@ -339,10 +610,166 @@ def gameloop():
         pygame.time.delay(140)
         screen.fill((0, 0, 0))
         interface()
-        screen.blit(socodirvon4,(210,160))
+        screen.blit(socodirvon4,(220,160))
         screen.blit(punchedmacdir2, (150,260))
         pygame.display.update()
         pygame.time.delay(350)
+
+    def koVonDir():
+        somKo.play()
+        cont=1000
+        posXVon=0
+        posYVon=0
+        posXMac=0
+        posYMac=0
+        for i in range(1000):
+            screen.fill((0, 0, 0))
+            interface()
+            if posXVon<100:
+                screen.blit(koVonDir1,(230+posXVon,120-posYVon))
+            else:
+                screen.blit(koVonDir2,(330,180-posYVon))
+            if i<80:
+                screen.blit(socoesq3, (250-posXMac,150))
+            elif i<150:
+                screen.blit(socoesq2, (230-posXMac,200))
+            elif i<220:
+                screen.blit(socoesq1, (220-posXMac,240))
+            else:
+                screen.blit(stand, (200,240))
+            if posXVon<100:
+                posXVon+=0.2
+            if posYVon<70:
+                posYVon+=0.2
+            pygame.display.update()
+        
+        somBackground.stop()
+        somTorcida.play()
+        for i in range(10):
+            screen.fill((0, 0, 0))
+            interface()
+            screen.blit(koVonDir2,(330,110))
+            if i%2==0:
+                screen.blit(victoryMac1,(200,240))
+            else:
+                screen.blit(victoryMac2,(200,220))
+            pygame.display.update()
+            pygame.time.delay(500)
+        somTorcida.stop()
+            
+    def koVonEsq():
+        somKo.play()
+        cont=1000
+        posXVon=0
+        posYVon=0
+        for i in range(900):
+            screen.fill((0, 0, 0))
+            interface()
+            if posXVon<80:
+                screen.blit(koVonEsq1,(160-posXVon,110-posYVon))
+            else:
+                screen.blit(koVonEsq2,(60,110-posYVon))
+            if i<80:
+                screen.blit(socodir3, (180,160))
+            elif i<150:
+                screen.blit(socodir2, (190,200))
+            elif i<220:
+                screen.blit(socodir1, (220,240))
+            else:
+                screen.blit(stand, (200,240))
+            if posXVon<80:
+                posXVon+=0.2
+            if posYVon<30:
+                posYVon+=0.2
+            pygame.display.update()
+        somTorcida.play()
+        somBackground.stop()
+        for i in range(8):
+            screen.fill((0, 0, 0))
+            interface()
+            screen.blit(koVonEsq2,(60,80))
+            if i%2==0:
+                screen.blit(victoryMac1,(200,240))
+            else:
+                screen.blit(victoryMac2,(200,220))
+            pygame.display.update()
+            pygame.time.delay(500)
+        somTorcida.stop()
+
+    def koMacDir():
+        posXMac=0
+        posYMac=0
+        somKo.play()
+        for i in range(1000):
+            screen.fill((0, 0, 0))
+            interface()
+            if i < 100:
+                screen.blit(socoesqvon4,(180,150))
+            elif i < 160:
+                screen.blit(socoesqvon3,(200,145))
+            else:
+                screen.blit(idlevon1,(210,140))
+            if i < 350:
+                screen.blit(punchedmacesq2,(260+posXMac,260+posYMac))
+            else:
+                screen.blit(koMacEsq1,(260+posXMac,260+posYMac))
+            if posXMac<=200:
+                posXMac+=0.3
+            if posYMac<=200:
+                posYMac+=0.3
+            pygame.display.update()
+        somTorcida.play()
+        somBackground.stop()
+        for i in range(8):
+            screen.fill((0, 0, 0))
+            interface()
+            if i%2==0:
+                screen.blit(victoryVon1,(210,140))
+            else:
+                screen.blit(victoryVon2,(210,140))
+            pygame.display.update()
+            pygame.time.delay(500)
+        somTorcida.stop()
+
+    def koMacEsq():
+        posXMac=0
+        posYMac=0
+        somKo.play()
+        for i in range(1000):
+            screen.fill((0, 0, 0))
+            interface()
+            if i < 100:
+                screen.blit(socodirvon4,(220,160))
+            elif i < 160:
+                screen.blit(socodirvon3,(210,150))
+            else:
+                screen.blit(idlevon1,(210,140))
+            if i < 350:
+                screen.blit(punchedmacdir2,(150-posXMac,260+posYMac))
+            else:
+                screen.blit(koMacEsq1,(150-posXMac,260+posYMac))
+            if posXMac<=200:
+                posXMac+=0.3
+            if posYMac<=200:
+                posYMac+=0.3
+            pygame.display.update()
+        somTorcida.play()
+        somBackground.stop()
+        for i in range(8):
+            screen.fill((0, 0, 0))
+            interface()
+            if i%2==0:
+                screen.blit(victoryVon1,(210,140))
+            else:
+                screen.blit(victoryVon2,(210,140))
+            pygame.display.update()
+            pygame.time.delay(500)
+        somTorcida.stop()
+        
+        
+        
+        
+                    
         
     def idle(i,controlevon,direction):
         listavon=[idlevon1,idlevon2]
@@ -352,7 +779,7 @@ def gameloop():
         # Preparacao Von
         if controlevon < 0:
             screen.blit(scaredvon, (210,140))
-        elif controlevon<110:
+        elif controlevon<prep:
             screen.blit(listavon[i], (210,140))
         else:
             if direction == "dir":
@@ -371,38 +798,58 @@ def gameloop():
     
     #GAMELOOP
     somBackground.play()
-    while True:
+    while True: #vidavon>0 or vidamac>0
         #eventos
+
+        #Aumentar dificuldade
+        if vidavon==52:
+            react=20
+            somCharge = pygame.mixer.Sound("som/charge2.wav")
+            damageVon=15    
         if controlevon==0:
             multiply=1
+
+        #Controle Loop
         if controlevon>=0:
             controlevon += 1
         elif controlevon < 0:
             controlevon-=1
         if controlevon <= -40:
                 controlevon=0
-        
-        if controlevon%10==0:
-            print("controlevon: ",controlevon,"esquiva: ",esquiva,"cooldown: ",esquivacooldown,"idle: ",standcontrol)
+        if controlevon==30:
+            prep = random.randint(50,120)
 
-        if controlevon==99:
+        #Controle Tempo
+        segundos+=0.02
+        if segundos>=60:
+            minutos+=1
+            segundos=0
+        
+        if controlevon==prep-10:
             direction = punchdirection()
             somCharge.play()
+        
 
-        if controlevon == 150:
+        if controlevon == prep+react:
             if direction == "dir" and esquiva<=0:
                 print("levou soco na", direction )
                 esquiva=0
-                vidamac-=10*multiply
+                vidamac-=damageVon*multiply
                 controlevon=0
                 puncheddir()
+                if vidamac<=0:
+                    koMacEsq()
+                
                 
             elif direction == "esq" and esquiva>=0:
                 print("levou soco na", direction )
                 esquiva=0
-                vidamac-=10*multiply
+                vidamac-=damageVon*multiply
                 controlevon=0
                 punchedesq()
+                if vidamac<=0:
+                    koMacDir()
+                
                 
             else:
                 print("esquivou se do soco na", direction)
@@ -429,57 +876,71 @@ def gameloop():
         
         # Eventos teclado
         for event in pygame.event.get():
-            
             if event.type == pygame.QUIT:
                     pygame.quit()
-                    
             if event.type == pygame.KEYDOWN:
                 
-                    
                 if event.key == pygame.K_LEFT and esquivacooldown==0:
                     esquivacooldown=50
-                    if controlevon>110 and direction=="dir":
+                    if controlevon>prep and direction=="dir":
                         esquiva_esquerda()
                         esquiva=1
                         controlevon=-1
                     else:
                         missesquivaesquerda()
-                    
-                    
+                        
                 elif event.key == pygame.K_RIGHT and esquivacooldown==0:
                     esquivacooldown=50
-                    if controlevon>110 and direction=="esq":
+                    if controlevon>prep and direction=="esq":
                         esquiva_direita()
                         esquiva = -1
                         controlevon=-1
-                        
                     else:
                         missesquivadireita()
-
-                    
+                        
                 elif event.key == pygame.K_z and punchcooldown==0:
                     punchcooldown=5
                     if controlevon<0:
                         jabesquerdo()
-                        vidavon-=5
+                        vidavon-=4
+                        if bonusControl==1:
+                            ptsMultiply+=1
+                            bonusControl=0
+                        else:
+                            bonusControl=0
+                            ptsMultiply=1                            
+                        pontos+=100*ptsMultiply
                     else:
                         jabEsquerdoBlock()
                         multiply+=1
-                        
-                        
-                    
+                    if vidavon<=0:
+                        koVonDir()
+              
                 elif event.key == pygame.K_x and punchcooldown==0:
                     punchcooldown=5
                     if controlevon<0:
                         jabdireito()
-                        vidavon-=5
-                     
+                        vidavon-=4
+                        if bonusControl==0:
+                            ptsMultiply+=1
+                            bonusControl=1
+                        else:
+                            bonusControl=0
+                            ptsMultiply=1
+                        pontos+=100*ptsMultiply
                     else:
                         jabDireitoBlock()
                         multiply+=1
+                    if vidavon<=0:
+                        koVonEsq()
+                        
+        
+        
+            
         
                     
-            
+        if vidavon<=0 or vidamac<=0:
+            break
         
         pygame.display.flip()
         screen.fill((0, 0, 0))
@@ -492,10 +953,10 @@ def gameloop():
         if standcontrol>12 and i==1:
             i=0
             standcontrol=0
-        label = myfont.render(str(vidamac), 1, (255,255,0))
-        label2 = myfont.render(str(vidavon), 1, (255,255,0))
-        screen.blit(label, (30, 40))
-        screen.blit(label2, (130, 40))
         pygame.display.flip()
-gameloop()
+        
+    if vidavon<=0:
+        victory(pontos)
+    
+menu()
 
