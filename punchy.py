@@ -176,25 +176,20 @@ def victory(pontos):
                     if event.key == pygame.K_BACKSPACE:
                         nome=""
                     if event.key == pygame.K_RETURN:
-                        ranking = open("leaderboard.txt","r")
+                        print("foi true")
+                        ranking = open("leaderboard.txt","r+")
                         conteudo = ranking.readlines()
-                        for i in conteudo:
-                            i=i.strip("\n")
-                            j = i.split(" ")
-                            if pontos>int(j[1]):
-                                cond==True
-                        ranking.close()
-                        if cond == True:
-                            lista=[]
-                            ranking = open("leaderboard.txt","w")
-                            conteudo = ranking.readlines()
-                            for i in range(len(conteudo)):
-                                i=i.strip("\n")
-                                recorde=lista[i].split(" ")
-                                if pontos > int(recorde[1]):
-                                    lista.insert(i-1,nome+" "+str(pontos))
-                            for i in range(0,6,-1):
-                                ranking.write(lista[i])
+                        for i in range(len(conteudo)):
+                            recorde=conteudo[i].split(" ")
+                            if pontos > int(recorde[1]):
+                                conteudo.insert(i,nome+" "+str(pontos)+"\n")
+                                break
+                        print(conteudo)
+                        ranking.truncate(0)
+                        ranking.seek(0)
+                        for i in range(6):
+                            print(conteudo[i])
+                            ranking.write(conteudo[i])
                         ranking.close()
 def ranking():
     #Sprites Ranking
@@ -230,10 +225,12 @@ def ranking():
                      
 def gameloop():
     #Variaveis Gameloop
+    clock=pygame.time.Clock()
+    clock.tick(1000)
     segundos=0
     minutos=0
-    vidamac=10
-    vidavon=10
+    vidamac=100
+    vidavon=8
     controlevon=0 
     fonte = pygame.font.SysFont("emulogic", 14)
     esquiva=0       #direcao da esquiva
