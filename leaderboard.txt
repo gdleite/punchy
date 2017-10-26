@@ -1,6 +1,6 @@
 pericles 11200
-abilio 10300
-samuel 9700
+tyson 10300
+maguila 9700
 carloshps 9500
-serjao 5000
+popo 5000
 gabriel 300
