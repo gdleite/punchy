@@ -149,7 +149,6 @@ def victory(pontos):
     
 
     #Loop
-    cond=False
     nome=""
     fonte = pygame.font.Font("fonte/emulogic.ttf", 16)
     pts = fonte.render(str(pontos), 1, (255,255,255))
