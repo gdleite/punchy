@@ -304,7 +304,7 @@ def ranking():
         for i in conteudo:
             i=i.strip("\n")
             x = fonte.render(i, 1, (255,255,255))
-            screen.blit(x, (90,100+posY))
+            screen.blit(x, (90,90+posY))
             posY+=50          
         pygame.display.flip()
         
